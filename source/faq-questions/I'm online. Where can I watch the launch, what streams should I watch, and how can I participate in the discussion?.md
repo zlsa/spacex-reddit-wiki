@@ -1,6 +1,6 @@
 {
     "type":"question",
-    "sections": ["Watching A Launch"]
+    "categories": ["Watching A Launch"]
 }
 
 # I'm online. Where can I watch the launch, what streams should I watch, and how can I participate in the discussion?
@@ -11,7 +11,7 @@ You can watch the launch live from a number of different locations:
 
 * [SpaceX on YouTube (Hosted + Technical Webcasts)](https://www.youtube.com/user/spacexchannel)
 
-* [r/SpaceX Live](https://rspacex.com/live) contains all the available streams to watch in a multitude of formats, with streaming texts updates from the moderators and from Twitter.
+* [r/SpaceX Live](https://rspacex.com/live) contains all the available streams to watch in a multitude of formats, with streaming text updates from the moderators and from Twitter.
 
 * [SpaceX.com (YouTube Hosted Webcast)](http://spacex.com/webcast)
 
