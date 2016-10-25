@@ -1,6 +1,6 @@
 {
     "type":"question",
-    "categories": ["SpaceX as a Company"]e
+    "categories": ["SpaceX as a Company"]
 }
 
 # When we get an update on [topic]? I want more information!
