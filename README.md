@@ -19,14 +19,15 @@ To contribute, simply fork `master`, perform your changes, then submit a pull re
 
 This repository is split into two main sections. The `source` directory contains all the metadata and content that you should add to and make changes in. The `output` directory contains the distributable Wiki & FAQ, and is included for sharing & distribution purposes only. You should not edit this directory as your changes will not be accepted and will be overwritten. You can autogenerate the `output` directory yourself by running `node generate.js` from Terminal on a Mac/Linux machine, or Command Prompt on a Windows machine, provided you have [Node.js](https://nodejs.org) installed.
 
-Within the `source` directory, you will find the `faq-questions` directory, where each question has its own markdown file. To add a new question to the FAQ, please create a file with the question title as the filename. Be sure to include the snippet of JSON that other questions include:
+Within the `source` directory, you will find the `faq` directory, where each question has its own markdown file. To add a new question to the FAQ, please create a file with the question title as the filename. Be sure to include the snippet of JSON that other source files include:
 
     {
-        "type":"question",
-        "categories": ["foo", "bar"]
+        "type":"question|page",         // String.
+        "categories": ["foo", "bar"]    // String[]. Only applicable to questions.
+        "url": "baz"                    // String. Only applicable to pages.
     }
 
-This identifier helps the automated script determine where the question should be placed. The `categories` array should represent a list of pages that the question fits under in the FAQ.
+This identifier helps the automated script determine where questions should be placed within the FAQ, and where pages should be placed within the Wiki. The `categories` array should represent a list of pages that the question fits under in the FAQ. The `url` string contains the location for a page within the wiki. Do not prefix this with a leading slash.
 
 ### Contact Others
 
