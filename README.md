@@ -32,6 +32,11 @@ When you add a new question to the FAQ, ensure the file is created with the ques
 
 This identifier helps the automated script determine where questions should be placed within the FAQ, and where pages should be placed within the Wiki. The `categories` array should represent a list of pages that the question fits under in the FAQ. The `url` string contains the location for a page within the wiki. Do not prefix this with a leading slash.
 
+### Style Guide
+
+* Note the distinction between article and product. "Falcon" and "Dragon". Not "The Falcon" or "A Dragon".
+* Shorten Reddit links using Reddit's link shortening service, shorten other links longer than 50 characters using Google's link shortening service.
+* Use correct symbols, "∆V" not "delta V".
 
 ### Contact Others
 
