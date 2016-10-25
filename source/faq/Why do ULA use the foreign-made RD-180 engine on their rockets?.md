@@ -1,6 +1,6 @@
 {
     "type":"question",
-    "categories": ["NASA & Politics"]
+    "categories": ["NASA, Air Force, & Politics"]
 }
 
 # Why do ULA use the foreign-made RD-180 engine on their rockets?
