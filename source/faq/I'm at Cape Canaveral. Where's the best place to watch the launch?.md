@@ -1,6 +1,7 @@
 {
     "type":"question",
-    "categories": ["Watching A Launch"]
+    "categories": ["Watching A Launch"],
+    "notes": ["Needs refreshing"]
 }
 
 # I'm at Cape Canaveral. Where's the best place to watch the launch?
