@@ -15,7 +15,13 @@ This repository is split into two main sections. The `source` directory contains
 
 Within the `source` directory, you will find markdown files, each corresponding to a wiki page, within the `faq` directory, you will find the FAQ questions, each with their own markdown file.
 
-, you will find the `faq` directory, where each question has its own markdown file. To add a new question to the FAQ, please create a file with the question title as the filename. Be sure to include the snippet of JSON that other source files include:
+### Contributing
+
+Anyone can contribute to this repository to help improve the content within. We will accept all edits, additions, and improvement provided they are sourced (either in your diff, or in the description of your commit), and are not structural in nature. Please ensure your changes are sourced, contain correct spelling and grammar, are written in a neutral manner, and that you agree to the licensing terms of this repository and acknowledge that your changes will be submitted into the public domain.
+
+To contribute, simply fork `master`, perform your changes, then submit a pull request here with a description of your changes. Your request will be merged, then nightly at 00:00UTC, an automated script will run and copy the current output of this project into the r/SpaceX wiki.
+
+When you add a new question to the FAQ, ensure the file is created with the question title as the filename. Be sure to include the snippet of JSON at the top that other source files include:
 
     {
         "type":"question|page",         // String.
@@ -25,14 +31,6 @@ Within the `source` directory, you will find markdown files, each corresponding 
     }
 
 This identifier helps the automated script determine where questions should be placed within the FAQ, and where pages should be placed within the Wiki. The `categories` array should represent a list of pages that the question fits under in the FAQ. The `url` string contains the location for a page within the wiki. Do not prefix this with a leading slash.
-
-### Contributing
-
-Anyone can contribute to this repository to help improve the content within. We will accept all edits, additions, and improvement provided they are sourced (either in your diff, or in the description of your commit), and are not structural in nature. Please ensure your changes are sourced, contain correct spelling and grammar, are written in a neutral manner, and that you agree to the licensing terms of this repository and acknowledge that your changes will be submitted into the public domain.
-
-To contribute, simply fork `master`, perform your changes, then submit a pull request here with a description of your changes. Your request will be merged, then nightly at 00:00UTC, an automated script will run and copy the current output of this project into the r/SpaceX wiki.
-
-When you add a new question to the FAQ, ensure the file is created with the question title as the filename. Be sure to include the snippet of JSON at the top that other source files include:
 
 
 ### Contact Others
