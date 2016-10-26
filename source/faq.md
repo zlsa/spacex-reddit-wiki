@@ -5,7 +5,7 @@
 
 # Frequently Asked Questions
 
-Looking for up to date Questions & Answers about our favorite company? You're in the right place! Our FAQ is subdivided into sixteen sections, pick your topic of interest and browse away. Do not worry about needing to pick and choose the correct category to find your answer, the questions and answers are duplicated across multiple sections.
+Looking for up to date Questions & Answers about our favorite company? You're in the right place! Our FAQ is subdivided into sixteen sections, pick your topic of interest and browse away. Do not worry about needing to pick and choose the correct category to find your answer, the questions and answers are duplicated across multiple categories.
 
 * BFR
 * BFS
