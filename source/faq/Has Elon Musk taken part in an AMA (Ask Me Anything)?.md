@@ -1,6 +1,11 @@
 {
     "type":"question",
-    "categories": ["Elon Musk"]
+    "categories": [
+        {
+            "name": "Elon Musk",
+            "priority": 100
+        }
+    ]
 }
 
 # Has Elon Musk taken part in an AMA (Ask Me Anything)?

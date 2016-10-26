@@ -1,6 +1,11 @@
 {
     "type":"question",
-    "categories": ["Elon Musk"],
+    "categories": [
+        {
+            "name": "Elon Musk",
+            "priority": 300
+        }
+    ],
     "notes": ["needs updating"]
 }
 

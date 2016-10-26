@@ -1,0 +1,20 @@
+{
+  "name": "spacex-reddit-wiki",
+  "version": "1.0.0",
+  "description": "The r/SpaceX Reddit Wiki & FAQ",
+  "main": "generate.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LukeNZ/spacex-reddit-wiki.git"
+  },
+  "author": "r/SpaceX",
+  "license": "CC0",
+  "bugs": {
+    "url": "https://github.com/LukeNZ/spacex-reddit-wiki/issues"
+  },
+  "homepage": "https://github.com/LukeNZ/spacex-reddit-wiki#readme",
+  "dependencies": {
+    "fs-extra": "^0.30.0",
+    "snoowrap": "^1.10.0"
+  }
+}

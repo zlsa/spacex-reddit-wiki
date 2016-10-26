@@ -1,6 +1,12 @@
 {
     "type":"question",
-    "categories": ["Elon Musk"]
+    "categories": [
+        {
+            "name": "Elon Musk",
+            "priority": 200
+        },
+        "SpaceX as a Company"
+    ]
 }
 
 # Why did Elon Musk found SpaceX?

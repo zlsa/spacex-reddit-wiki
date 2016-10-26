@@ -1,5 +1,5 @@
 // File to be used to generate the output of the wiki from the source.
-let fs = require('fs');
+let fs = require('fs-extra');
 
 /**
  * Represents a question from the FAQ.
@@ -20,32 +20,82 @@ class Question {
     }
 
     /**
-     * Returns a question object from a given file.
+     * From the provided file, read the file and extract the data, returning a
+     * question from the data; initially as a promise.
      *
      * @static
      *
-     * @returns {Question} A Question Object.
+     * @param {File} file - The file to parse from.
+     *
+     * @returns {Promise} - A promise.
      */
     static parseFromFile(file) {
-        let data = fs.readFileSync(file, 'utf8');
 
-        // split on #
-        let jsonAndText = splitOnce(data, '#');
-        let json = jsonAndText[0];
-        let text = jsonAndText[1];
+        return new Promise((resolve, reject) => {
+            fs.readFile(file, 'utf8', (err, data) => {
+                if (err) reject(err);
 
-        let questionAndAnswer = splitOnce(text, '\n');
-        let question = questionAndAnswer[0];
-        let answer = questionAndAnswer[1];
+                // split on #
+                let jsonAndText = splitOnce(data, '#');
+                let json = jsonAndText[0];
+                let text = jsonAndText[1];
 
-        return new Question(JSON.parse(json), question, answer);
+                let questionAndAnswer = splitOnce(text, '\n');
+                let question = questionAndAnswer[0];
+                let answer = questionAndAnswer[1];
+
+                return resolve(new Question(JSON.parse(json), question, answer));
+            });
+        });
     }
 
     /**
      * Returns the question title, formatted using markdown.
+     *
+     * @return {String} - The formatted question title.
      */
     formattedQuestionText() {
         return "#" + this.questionText + "\n";
+    }
+
+    /**
+     * Gets the category entry for the given category for this question.
+     *
+     * @param {String} category - the category to retrieve.
+     *
+     * @returns {Object|String} - the category entry.
+     */
+    getCategoryEntry(category) {
+        return this.metadata.categories.filter(cat => {
+            if (typeof cat === "string") {
+                return cat === category;
+            }
+            return cat.name === category;
+        })[0];
+    }
+
+    /**
+     * If the question is in the given category.
+     *
+     * @param {String} category - the category to search for.
+     *
+     * @returns {boolean} - If the question is in the given category or not.
+     */
+    isInCategory(category) {
+        return getCategoryEntry(category) != undefined;
+    }
+
+    /**
+     * Checks the the question has a priority setting for the given category.
+     *
+     * @param {String} category - the name of the category to search for.
+     *
+     * @returns {boolean} - Whether the question has a priority setting for the
+     * category.
+     */
+    doesHavePriorityInCategory(category) {
+        let categoryEntry = this.getCategoryEntry(category);
+        return typeof categoryEntry !== "string" && "priority" in categoryEntry;
     }
 }
 
@@ -77,36 +127,102 @@ class Page {
  */
 let generate = function() {
 
-    deleteCurrentOutput();
+    // Delete the current output directory if it exists. We want to cleanly
+    // generate a new output, instead of overwriting existing documents.
+    emptyOutput().then(outcome => {
 
-    fs.readdir('./source/faq', (err, files) => {
-        let questions = files.map(file => Question.parseFromFile('./source/faq/' + file));
+        // FAQ
+        fs.readdir('./source/faq', (err, files) => {
+            if (err) throw err;
+            let promises = files.map(file => Question.parseFromFile('./source/faq/' + file));
 
-        questions.forEach(question => {
-            writeQuestionToDisk(question);
-        })
+            Promise.all(promises).then(questions => {
+                let sortedCategories = sortQuestionsIntoCategories(questions);
+
+                for (let key in sortedCategories) {
+                    writeCategoryToDisk(key, sortedCategories[key]);
+                }
+            });
+        });
+
+        // Files
+        //generateWiki();
     });
-}
-
-let deleteCurrentOutput = function() {
-
 }
 
 /**
- * For a given question, write it to its appropriate categories.
- *
- * @param {question} question The question to write to disk.
- *
- * @return {void}
+ * Deletes the current output directory of the wiki.
  */
-let writeQuestionToDisk = function(question) {
-    let categoriesForQuestion = question.metadata.categories;
-
-    categoriesForQuestion.forEach(category => {
-        let writeStream = fs.createWriteStream('./output/' + category + '.md', { flags: 'a'});
-        writeStream.write(question.formattedQuestionText() + question.answerText + '\n');
-        writeStream.end();
+let emptyOutput = function() {
+    return new Promise((resolve, reject) => {
+        fs.emptyDir('./output', err => {
+            if (err) reject(err);
+            resolve();
+        });
     });
+}
+
+/**
+ * For a given category, write it to its appropriate file.
+ *
+ * @param {String} categoryName - The name of the category.
+ * @param {Array} questions - The questions within the category.
+ */
+let writeCategoryToDisk = function(categoryName, questions) {
+    let writeStream = fs.createWriteStream('./output/' + categoryName + '.md', { flags: 'a'});
+
+    questions.forEach(question => {
+        writeStream.write(question.formattedQuestionText() + question.answerText + '\n');
+    });
+
+    writeStream.end();
+}
+
+/**
+ * [sortQuestions description]
+ * @param  {[type]} questions [description]
+ * @return {[type]}           [description]
+ */
+let sortQuestionsIntoCategories = function(questions) {
+    let categories = [];
+
+    // Push questions into categories
+    questions.forEach(question => {
+        question.metadata.categories.forEach(category => {
+
+            let categoryName = typeof category === "string" ? category : category.name;
+
+            if (!categories[categoryName]) {
+                categories[categoryName] = [];
+            }
+
+            categories[categoryName].push(question);
+
+        });
+    });
+
+    // Sort categories
+    for (let key in categories) {
+        categories[key].sort((a, b) => {
+            if (a.doesHavePriorityInCategory(key)) {
+                if (b.doesHavePriorityInCategory(key)) {
+                    return a.getCategoryEntry(key).priority > b.getCategoryEntry(key).priority ? -1 : 1;
+                }
+                return -1;
+            }
+            return b.doesHavePriorityInCategory(key) ? 1 : 0;
+        });
+    }
+
+    return categories;
+}
+
+let generateFAQ = function() {
+
+}
+
+let generateWiki = function() {
+
 }
 
 /**

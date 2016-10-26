@@ -11,7 +11,9 @@ This repository holds the source for the full, currently up-to-date version of t
 
 ### Repository Layout
 
-This repository is split into two main sections. The `source` directory contains all the metadata and content that you should add to and make changes in. The `output` directory contains the distributable Wiki & FAQ, and is included for sharing & distribution purposes only. You should not edit this directory as your changes will not be accepted and will be overwritten. You can autogenerate the `output` directory yourself by running `node generate.js` from Terminal on a Mac/Linux machine, or Command Prompt on a Windows machine, provided you have [Node.js](https://nodejs.org) installed.
+This repository is split into two main sections. The `source` directory contains all the metadata and content that you should add to and make changes in. The `output` directory contains the distributable Wiki & FAQ and is a one to one reproduction of the Wiki & FAQ found on r/SpaceX, and is included in this repository for sharing & distribution purposes only. You should not edit this directory as your changes will not be accepted and will be overwritten.
+
+You can autogenerate the `output` directory yourself by running `node generate.js` from Terminal on a Mac/Linux machine, or Command Prompt on a Windows machine, provided you have [Node.js](https://nodejs.org) installed.
 
 Within the `source` directory, you will find markdown files, each corresponding to a wiki page, within the `faq` directory, you will find the FAQ questions, each with their own markdown file.
 
@@ -23,7 +25,7 @@ When you add a new question to the FAQ, ensure the file is created with the ques
 
 #### If you have edit rights (r/SpaceX moderators)
 
-To contribute, find the file you are looking to edit, and click the pencil with the label "edit this file". Provide your commit title and description, and click the green "Commit Changes" button.
+To contribute, find the file you are looking to edit, and click the pencil with the label "edit this file". Provide your commit title and description, and click the green "Commit Changes" button. To create a file, navigate to the directory you would like your file to be created in, and click "Create New File" in the upper right hand corner.
 
 #### If you do not have edit rights
 
