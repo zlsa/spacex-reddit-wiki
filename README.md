@@ -19,18 +19,48 @@ Within the `source` directory, you will find markdown files, each corresponding 
 
 Anyone can contribute to this repository to help improve the content within. We will accept all edits, additions, and improvement provided they are sourced (either in your diff, or in the description of your commit), and are not structural in nature. Please ensure your changes are sourced, contain correct spelling and grammar, are written in a neutral manner, and that you agree to the licensing terms of this repository and acknowledge that your changes will be submitted into the public domain.
 
+When you add a new question to the FAQ, ensure the file is created with the question title as the filename. When you add a new page to the Wiki, ensure the page title is roughly in keeping with the intent of the page. In both cases, be sure to include the JSON snippet at the top of the page, described below.
+
+#### If you have edit rights (r/SpaceX moderators)
+
+To contribute, find the file you are looking to edit, and click the pencil with the label "edit this file". Provide your commit title and description, and click the green "Commit Changes" button.
+
+#### If you do not have edit rights
+
 To contribute, simply fork `master`, perform your changes, then submit a pull request here with a description of your changes. Your request will be merged, then nightly at 00:00UTC, an automated script will run and copy the current output of this project into the r/SpaceX wiki.
 
-When you add a new question to the FAQ, ensure the file is created with the question title as the filename. Be sure to include the snippet of JSON at the top that other source files include:
+### Metadata
+
+At the top of each page and question in the source of this wiki is a small JSON snippet, this identifier helps the automated script determine where questions should be placed within the FAQ, and where pages should be placed within the Wiki. The syntax of this snippet is described below.
 
     {
-        "type":"question|page",         // String.
-        "categories": ["foo", "bar"]    // String[]. Only applicable to questions.
-        "url": "baz",                   // String. Only applicable to pages.
-        "notes": ["Too long"]           // String[]. A list of remarks about the file.
+        "type":"question|page",         
+        "categories": [
+            "foo",
+            {
+                "name": "bar",
+                "priority": 100
+            }
+        ],    
+        "url": "baz",                   
+        "notes": ["Too long"]           
     }
 
-This identifier helps the automated script determine where questions should be placed within the FAQ, and where pages should be placed within the Wiki. The `categories` array should represent a list of pages that the question fits under in the FAQ. The `url` string contains the location for a page within the wiki. Do not prefix this with a leading slash.
+#### `type`
+
+`String` of either `question` or `page`. Describes the file.
+
+#### `categories` (Questions Only)
+
+`Array` of either `String` or `Object`. This represents a list of pages that the question fits under in the FAQ. If it is a string, it is simply the name of the page in the FAQ. If it is an object, it contains two keys: `name` is the name of the page in the FAQ, and `priority` is a value which is used to sort the questions in descending order; highest priority questions will be placed at the top of the FAQ page. If no priority is specified, they will be placed last in the FAQ page and ordered alphabetically.
+
+#### `url` (Pages Only)
+
+`String` describing the url of the page within the wiki. Do not prefix this with a leading slash.
+
+#### `notes`
+
+`Array` of `String`, human readable notes about the current file.
 
 ### Style Guide
 
