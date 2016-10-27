@@ -1,6 +1,6 @@
 {
     "type":"question",
-    "categories": ["Orbits and Rocketry"]
+    "categories": ["Orbits & Rocketry"]
 }
 
 # What is a Mars or Aldrin Cycler?
