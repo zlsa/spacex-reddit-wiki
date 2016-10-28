@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["SpaceX as a Company", "Working at SpaceX"]
 }
 

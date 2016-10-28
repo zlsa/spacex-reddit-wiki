@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["Dragon"],
     "notes": ["Needs rewriting"]
 }

@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["Orbits & Rocketry"]
 }
 

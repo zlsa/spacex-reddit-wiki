@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["SpaceX Facilities"]
 }
 

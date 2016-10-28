@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["Dragon", "Mars"],
     "notes": ["needs references to original NASA study, 2018 mission, and future missions"]
 }

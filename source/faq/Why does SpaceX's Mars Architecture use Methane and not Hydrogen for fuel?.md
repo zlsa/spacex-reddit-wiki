@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["BFS", "BFR"]
 }
 

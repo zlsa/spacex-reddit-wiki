@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["Falcon"],
     "notes": ["Needs mention of new autonomous FTS"]
 }

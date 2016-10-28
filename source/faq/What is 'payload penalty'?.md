@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["Reusability", "Orbits & Rocketry"],
     "notes": ["Needs citations"]
 }

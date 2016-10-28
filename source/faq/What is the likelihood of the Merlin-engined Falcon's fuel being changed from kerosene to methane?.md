@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["Falcon"],
     "notes": ["Needs additional information concerning Raptor"]
 }

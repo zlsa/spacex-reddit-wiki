@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["SpaceX as a Company"],
     "notes": ["Spacex employees can buy shares"]
 }

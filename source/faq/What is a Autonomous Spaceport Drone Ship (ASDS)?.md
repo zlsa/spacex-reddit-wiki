@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["Reusability", "SpaceX Facilities"],
     "notes": ["needs to be improved"]
 }

@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["The Launch Process", "Falcon"],
     "notes": ["Needs updating, lengthening, and sourcing"]
 }

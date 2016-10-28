@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["SpaceX as a Company"],
     "notes": ["Update with potential value according to NASA"]
 }

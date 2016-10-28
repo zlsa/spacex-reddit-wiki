@@ -1,7 +1,6 @@
-{    
+{
     "categories": [
-        {
-            "name": "Elon Musk",
+        {         "name": "Elon Musk",
             "priority": 200
         },
         "SpaceX as a Company"

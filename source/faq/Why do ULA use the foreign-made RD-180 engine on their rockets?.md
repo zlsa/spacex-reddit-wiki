@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["NASA, Air Force, & Politics"]
 }
 

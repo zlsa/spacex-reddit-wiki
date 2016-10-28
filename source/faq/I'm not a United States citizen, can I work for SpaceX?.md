@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["Working at SpaceX"],
     "notes": ["Mention only 14 employed non-citizens"]
 }

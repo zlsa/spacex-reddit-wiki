@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["Falcon"],
     "notes": ["Needs to be less personal, more neutral tone"]
 }

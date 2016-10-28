@@ -1,4 +1,4 @@
-{    
+{
     "categories": ["The Launch Process"],
     "notes": ["Marked as too verbose"]
 }
