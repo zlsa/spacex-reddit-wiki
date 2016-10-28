@@ -1,5 +1,8 @@
 # The r/SpaceX Wiki & FAQ
 
+| [Browse it](https://github.com/LukeNZ/spacex-reddit-wiki/tree/master/output) | [Edit it](https://github.com/LukeNZ/spacex-reddit-wiki/tree/master/source) |
+|----|----|
+
 This repository holds the source for the full, currently up-to-date version of the [r/SpaceX subreddit](https://reddit.com/r/spacex) Wiki & FAQ. We have chosen to move to an external version control for a number of reasons:
 
 * This helps us improve the transparency of the contributions made to the wiki.
