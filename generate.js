@@ -278,13 +278,10 @@ let createOutput = function(faqAndWikiPages) {
     let faqPages = faqAndWikiPages[0];
     let wikiPages = faqAndWikiPages[1];
 
-    faqPages.forEach(faqPage => {
-        writePageToOutput(faqPage);
-    });
+    let pages = faqPages.concat(wikiPages);
 
-    // Write each Wiki page to disk
-    wikiPages.forEach(wikiPage => {
-        writePageToOutput(wikiPage);
+    pages.forEach(page => {
+        writePageToOutput(page);
     });
 }
 
@@ -292,7 +289,7 @@ let createOutput = function(faqAndWikiPages) {
  * [publishWiki description]
  * @return {[type]} [description]
  */
-let publishWiki = function() {
+let publishWiki = function(faqAndWikiPages) {
     if (process.argv.length > 2) {
         let r = new snoowrap({
             userAgent: 'Publishes the r/SpaceX wiki from GitHub daily.',
@@ -302,7 +299,29 @@ let publishWiki = function() {
             clientSecret: process.argv[5]
         });
 
-        //r.getSubreddits('spacex').getWikiPage
+        let faqPages = faqAndWikiPages[0];
+        let wikiPages = faqAndWikiPages[1];
+
+        let pages = faqPages.concat(wikiPages);
+
+        (function publishPageToWiki(i) {
+            setTimeout(() => {
+
+                // Publish the page to reddit
+                r.getSubreddit('spacex').getWikiPage(pages[i].url()).edit({
+                    text: pages[i].contents(),
+                    reason: 'Daily automated publish for ' + new Date(Date.now()).toISOString()
+                }).then(() => {
+                    console.log("Page complete: " + pages[i].url());
+                });
+
+                // Continue iterating through the loop
+                if (--i) {
+                    publishPageToWiki(i);
+                }
+            }, 3000);
+        })(pages.length - 1);
+
     }
 }
 
