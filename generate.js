@@ -239,7 +239,12 @@ let generateFAQ = function() {
 let generateWiki = function() {
 
     let onlyMarkdownFilesFn = function(item) {
-        return [".md", ""].includes(path.extname(item)) && path.relative('.', item).indexOf("faq") === -1;
+        // Ensure only markdown files and directories are searched
+        return [".md", ""].includes(path.extname(item))
+        // Exclude directories that have the phrase 'faq' within
+        && path.relative('.', item).indexOf("faq") === -1
+        // Exclude hidden directories and files
+        && (path.basename(item) === "." || path.basename(item)[0] !== ".");
     }
 
     return new Promise((resolve, reject) => {
@@ -247,7 +252,6 @@ let generateWiki = function() {
         fs.walk('./source', { filter: onlyMarkdownFilesFn }).on('data', item => {
             items.push(item);
         }).on('end', () => {
-
             // Filter does not remove root directory, we must do this outselves.
             // https://github.com/jprichardson/node-klaw/issues/11
             items = items.filter(item => {
@@ -280,7 +284,6 @@ let createOutput = function(faqAndWikiPages) {
 
     // Write each Wiki page to disk
     wikiPages.forEach(wikiPage => {
-        console.log(wikiPage);
         writePageToOutput(wikiPage);
     });
 }

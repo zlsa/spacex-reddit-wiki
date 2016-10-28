@@ -1,5 +1,5 @@
 {
-    "categories": ["Watching A Launch"]
+    "categories": ["Watching a Launch"]
 }
 
 # I'm online. Where can I watch the launch, what streams should I watch, and how can I participate in the discussion?

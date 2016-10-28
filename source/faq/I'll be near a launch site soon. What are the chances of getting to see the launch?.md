@@ -1,5 +1,5 @@
 {
-    "categories": ["Watching A Launch"]
+    "categories": ["Watching a Launch"]
 }
 
 # I'll be near a launch site soon. What are the chances of getting to see the launch?

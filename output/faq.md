@@ -16,7 +16,7 @@ Looking for up to date Questions & Answers about our favorite company? You're in
 * SpaceX Facilities
 * SpaceX History
 * The Launch Process
-* Watching A Launch
+* Watching a Launch
 * Working at SpaceX
 
 

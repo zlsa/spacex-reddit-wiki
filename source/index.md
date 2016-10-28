@@ -1,5 +1,4 @@
 {
-    "type":"page",
     "url":"index"
 }
 

@@ -1,5 +1,5 @@
 {
-    "categories": ["Watching A Launch"],
+    "categories": ["Watching a Launch"],
     "notes": ["Needs refreshing"]
 }
 
