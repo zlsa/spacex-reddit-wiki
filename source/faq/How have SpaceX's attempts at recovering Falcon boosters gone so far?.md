@@ -1,5 +1,4 @@
 {
-    "type":"question",
     "categories": ["Reusability"],
     "notes": ["needs to be more than just a link elsewhere"]
 }

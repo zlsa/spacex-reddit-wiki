@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["Dragon"],
     "notes": ["Needs updating with D2 & new Falcon"]
 }

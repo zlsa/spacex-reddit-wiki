@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["Dragon"],
     "notes": ["Needs updating for Dragon 2 also", "mention D1 deorbit time"]
 }

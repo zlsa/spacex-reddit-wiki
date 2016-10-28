@@ -1,5 +1,5 @@
 {
-    "type":"question",
+    
     "categories": ["Dragon"],
     "notes": ["needs review"]
 }

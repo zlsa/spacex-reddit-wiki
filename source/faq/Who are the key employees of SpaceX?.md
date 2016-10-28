@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["SpaceX as a Company"]
 }
 
@@ -9,4 +8,4 @@ SpaceX currently has over 4000 employees, but many of the senior staff are well 
 
 Other employees include **John Taylor** (@jbtaylor) who is Director of Communications, **Hans Koenigsmann** is VP of Mission Assurance (and can often be seen at CRS conferences), **Garrett Reisman** is the Dragon v2 Product Lead (and former NASA astronaut), **John Insprucker** is the Falcon 9 Product Director and webcast host, **Molly McCormick** (@Molliway) is working on spacesuit design.
 
-Also on the board of Directors is **Kimbal Musk** (Elon's brother), and **Steve Jurvetson**, well known Silicon Valley and newspace entrepreneur. 
+Also on the board of Directors is **Kimbal Musk** (Elon's brother), and **Steve Jurvetson**, well known Silicon Valley and newspace entrepreneur.

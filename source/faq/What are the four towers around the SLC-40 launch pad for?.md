@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["The Launch Process", "SpaceX Facilities"]
 }
 

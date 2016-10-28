@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["Falcon", "SpaceX History"],
     "notes": ["Discuss who Tom Markusic was, mention BFR"]
 }

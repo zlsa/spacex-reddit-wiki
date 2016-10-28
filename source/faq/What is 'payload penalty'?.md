@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["Reusability", "Orbits & Rocketry"],
     "notes": ["Needs citations"]
 }

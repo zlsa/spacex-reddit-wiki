@@ -1,5 +1,5 @@
 {
-    "type":"question",
+    
     "categories": ["Watching A Launch"]
 }
 

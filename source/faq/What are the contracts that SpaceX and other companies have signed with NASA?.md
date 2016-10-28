@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["NASA, Air Force, & Politics"],
     "notes": ["expand contract detail"]
 }

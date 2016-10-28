@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["Dragon"],
     "notes": ["Needs updating with Musk SUV quote, mention Red Dragon is unmanned"]
 }

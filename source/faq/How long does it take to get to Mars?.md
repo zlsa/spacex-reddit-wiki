@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["Mars"]
 }
 
@@ -38,4 +37,4 @@ Mars Orbiter Mission|	05 Nov 13|	24 Sep 14|	323|	10.63|
 MAVEN|		        18 Nov 13|	22 Sep 14|	308|	10.13|
 ||| **average:**| 239 days| 7.88 months|
 
-This transit time depends massively on the relative distance between Earth and Mars, and also on the amount of fuel you have to burn. Robotic probes often take the lowest energy approach, which takes longer. One of the main problems is that every unit of speed you put on the craft to make the trip shorter is an extra amount you have to get rid of when you get there. It is, however, a fair assumption that future manned missions to Mars will allow for a higher energy burn in order to lower the transit time to something a little more reasonable, perhaps 6 months or less. 
+This transit time depends massively on the relative distance between Earth and Mars, and also on the amount of fuel you have to burn. Robotic probes often take the lowest energy approach, which takes longer. One of the main problems is that every unit of speed you put on the craft to make the trip shorter is an extra amount you have to get rid of when you get there. It is, however, a fair assumption that future manned missions to Mars will allow for a higher energy burn in order to lower the transit time to something a little more reasonable, perhaps 6 months or less.

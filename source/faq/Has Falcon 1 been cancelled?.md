@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["Falcon", "SpaceX History"],
     "notes": ["Needs updates concerning Shotwell's comments re: F1"]
 }

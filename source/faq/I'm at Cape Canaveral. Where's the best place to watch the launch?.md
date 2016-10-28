@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["Watching A Launch"],
     "notes": ["Needs refreshing"]
 }

@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["BFS", "BFR"]
 }
 

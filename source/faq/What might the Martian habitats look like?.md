@@ -1,5 +1,4 @@
-{
-    "type":"question",
+{    
     "categories": ["Mars"],
     "notes": ["mention geodesic domes from Musk AMA"]
 }
