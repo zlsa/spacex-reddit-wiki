@@ -347,6 +347,7 @@ let writePageToOutput = function(page) {
 
     }).then(response => {
         let writeStream = fs.createWriteStream(outputDir + page.url() + '.md', { flags: 'a'});
+        // note to alter links inside content depending on final destination (github/reddit)
         writeStream.write(page.contents());
         writeStream.end();
     });
