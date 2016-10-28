@@ -15,7 +15,7 @@ This repository is split into two main sections.
 
 * **The `source` directory** contains all the metadata and content that you should add to and make changes in.
 
-* **The `output` directory** contains the distributable Wiki & FAQ and is a one to one reproduction of the Wiki & FAQ found on r/SpaceX, and is included in this repository for sharing & distribution purposes only. You should not edit this directory as your changes will not be accepted and will be overwritten.
+* **The `output` directory** contains the distributable Wiki & FAQ sections and is a one to one reproduction of the Wiki & FAQ found on r/SpaceX. It is included in this repository for sharing & distribution purposes only. You should not edit this directory, as your changes will not be accepted and will be overwritten.
 
 You can autogenerate the `output` directory yourself by running `node generate.js` from Terminal on a Mac/Linux machine, or Command Prompt on a Windows machine, provided you have [Node.js](https://nodejs.org) installed.
 
