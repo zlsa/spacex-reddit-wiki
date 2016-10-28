@@ -35,8 +35,7 @@ To contribute, simply fork `master`, perform your changes, then submit a pull re
 
 At the top of each page and question in the source of this wiki is a small JSON snippet, this identifier helps the automated script determine where questions should be placed within the FAQ, and where pages should be placed within the Wiki. The syntax of this snippet is described below.
 
-    {
-        "type":"question|page",         
+    {      
         "categories": [
             "foo",
             {
@@ -47,10 +46,6 @@ At the top of each page and question in the source of this wiki is a small JSON 
         "url": "baz",                   
         "notes": ["Too long"]           
     }
-
-#### `type`
-
-`String` of either `question` or `page`. Describes the file.
 
 #### `categories` (Questions Only)
 

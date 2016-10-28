@@ -1,9 +1,11 @@
 // File to be used to generate the output of the wiki from the source.
-let fs = require('fs-extra');
-let snoowrap = require('snoowrap');
+const fs = require('fs-extra');
+const path = require('path');
+const snoowrap = require('snoowrap');
 
 /**
- * Represents a question from the FAQ.
+ * Represents a question from the FAQ. Is only used temporarily before the FAQ pages
+ * are created.
  */
 class Question {
 
@@ -16,8 +18,8 @@ class Question {
      */
     constructor(metadata, questionText, answerText) {
         this.metadata = metadata;
-        this.questionText = questionText;
-        this.answerText = answerText;
+        this.questionText = questionText.trim();
+        this.answerText = answerText.trim();
     }
 
     /**
@@ -28,7 +30,7 @@ class Question {
      *
      * @param {File} file - The file to parse from.
      *
-     * @returns {Promise} - A promise.
+     * @returns {Promise} - A promise that resolves to a question.
      */
     static parseFromFile(file) {
 
@@ -51,12 +53,21 @@ class Question {
     }
 
     /**
-     * Returns the question title, formatted using markdown.
+     * Returns the question, formatted using markdown.
      *
-     * @return {String} - The formatted question title.
+     * @return {String} - The formatted question.
      */
     formattedQuestionText() {
-        return "##" + this.questionText + "\n";
+        return "## " + this.questionText + "\n\n";
+    }
+
+    /**
+     * Returnd the answer, formatted using markdown.
+     *
+     * @return {String} - The formatted answer.
+     */
+    formattedAnswerText() {
+        return this.answerText + "\n\n";
     }
 
     /**
@@ -101,35 +112,72 @@ class Question {
 }
 
 /**
- *
+ * Represents an abstract page, which can either be written to disk or submitted
+ * to reddit.
  */
 class Page {
-    constructor(metadata, text) {
+
+    /**
+     * Constructs a Page object.
+     *
+     * @param {object} metadata - A JSON object of the file metadata.
+     * @param {string} title - The title of the page.
+     * @param {string} text - The contents of the page.
+     */
+    constructor(metadata, title, text) {
         this.metadata = metadata;
-        this.text = text;
+        this.title = title.trim();
+        this.text = text.trim();
     }
 
     /**
-     * Returns a page object for a given file.
+     * Returns a promise which resolves to a page object for a given file.
+     *
+     * It is presumed that any file which is parsed in has the following three
+     * sections present: a snippet of JSON metadata at the top of the file,
+     * a <h1> title in markdown, and a content section; in that order.
      *
      * @static
      *
      * @param {File} file - The file to construct a page from.
      *
-     * @returns Page.
+     * @returns {Promise} - A promise which resolves to a page.
      */
      static parseFromFile(file) {
          return new Promise((resolve, reject) => {
-             fs.readFile(file, (err, data) => {
+             fs.readFile(file, 'utf8', (err, data) => {
                  if (err) reject(err);
 
                  let jsonAndText = splitOnce(data, '#');
                  let metadata = jsonAndText[0];
-                 let text = jsonAndText[1];
 
-                 resolve(new Page(metadata, text));
+                 let titleAndContents = splitOnce(jsonAndText[1], '\n');
+                 let title = titleAndContents[0];
+                 let contents = titleAndContents[1];
+
+                 resolve(new Page(JSON.parse(metadata), title, contents));
              });
          });
+     }
+
+     /**
+      * Returns the URL for the page, as found in the r/SpaceX wiki.
+      *
+      * If there is a url field in the provided metadata, that is returned. If
+      * this does not exist, the title is simply used and formatted by converting
+      * it to lower case and removing non-alphanumeric characters.
+      *
+      * @returns {String} - the URL for the page.
+      */
+     url() {
+         if (this.metadata && this.metadata.url) {
+             return this.metadata.url;
+         }
+         return 'faq/' + this.title.toLowerCase().replace(/\W/g, "");
+     }
+
+     contents() {
+         return "# " + this.title + "\n\n" + this.text;
      }
 }
 
@@ -151,6 +199,9 @@ let generate = function() {
 
 /**
  * Deletes the current output directory of the wiki.
+ *
+ * @returns {Promise} - A promise that resolves when the output directory is
+ * emptied.
  */
 let emptyOutput = function() {
     return new Promise((resolve, reject) => {
@@ -164,9 +215,9 @@ let emptyOutput = function() {
 /**
  * Generates the FAQ portion of the Wiki, and returns the created pages as an array.
  *
- * @param {Object} options - An array of options that
+ * @returns {Promise} - A promise that resolves to an array of category pages.
  */
-let generateFAQ = function(options) {
+let generateFAQ = function() {
     return new Promise((resolve, reject) => {
         fs.readdir('./source/faq', (err, files) => {
             if (err) return reject(err);
@@ -174,46 +225,64 @@ let generateFAQ = function(options) {
             let promises = files.map(file => Question.parseFromFile('./source/faq/' + file));
 
             Promise.all(promises).then(questions => {
-                let sortedCategories = sortQuestionsIntoCategories(questions);
-
-                for (let key in sortedCategories) {
-                    sortedCategories[key] = createCategoryString(key, sortedCategories[key]);
-                }
-
-                return resolve(sortedCategories);
-
+                return resolve(createCategoryPages(questions));
             });
         });
     });
 }
 
 /**
- * Generates the other miscellaneous wiki pages.
+ * Generates the other miscellaneous wiki pages, returning the Wiki.
+ *
+ * @returns {Promise} - A promise that resolves to an array of wiki pages.
  */
 let generateWiki = function() {
-    return Promise.resolve();
+
+    let onlyMarkdownFilesFn = function(item) {
+        return [".md", ""].includes(path.extname(item)) && path.relative('.', item).indexOf("faq") === -1;
+    }
+
+    return new Promise((resolve, reject) => {
+        let items = [];
+        fs.walk('./source', { filter: onlyMarkdownFilesFn }).on('data', item => {
+            items.push(item);
+        }).on('end', () => {
+
+            // Filter does not remove root directory, we must do this outselves.
+            // https://github.com/jprichardson/node-klaw/issues/11
+            items = items.filter(item => {
+                return path.relative('.', item.path) !== "source";
+            });
+
+            let promises = items.map(item => Page.parseFromFile(item.path));
+
+            Promise.all(promises).then(questions => {
+                return resolve(questions);
+            });
+        });
+    });
 }
 
 /**
  * Creates the outputs of the FAQ & Wiki on disk.
  *
- * @param  {Array} faqAndWikiPages A two-length array, the first containing the FAQ
- * pages in a key:value relationship of title:contents, and the second contanining
- * the Wiki pages in a key:value relationship of url:contents.
+ * @param  {Array} faqAndWikiPages A two-length array, the first element containing
+ * an array of Pages for the FAQ, and the second containing an array of Pages for
+ * the Wiki.
  */
 let createOutput = function(faqAndWikiPages) {
     let faqPages = faqAndWikiPages[0];
     let wikiPages = faqAndWikiPages[1];
 
-    // Write each FAQ page to disk
-    for (let faqPageTitle in faqPages) {
-        // Generate from the page title, a location where the file will reside
-        // on disk.
-        let faqFileTitle = "faq/" + faqPageTitle.toLowerCase().replace(/[\W]/g, "");
-        writeFileToOutput(faqFileTitle, faqPages[faqPageTitle]);
-    }
+    faqPages.forEach(faqPage => {
+        writePageToOutput(faqPage);
+    });
 
     // Write each Wiki page to disk
+    wikiPages.forEach(wikiPage => {
+        console.log(wikiPage);
+        writePageToOutput(wikiPage);
+    });
 }
 
 /**
@@ -235,62 +304,52 @@ let publishWiki = function() {
 }
 
 /**
- * For a given collection of questions, create a string representation of it and return it.
+ * For a given page, commit it to disk. Writes to the output folder.
  *
- * @param {String} categoryName - The name of the category.
- * @param {Array} questions - The questions within the category.
- *
- * @returns {String} - the created category string.
+ * @param {Page} page - The page to be committed to disk.
  */
-let createCategoryString = function(categoryName, questions) {
-
-    let categoryString = `# ${categoryName} \n`;
-
-    questions.forEach(question => {
-        categoryString = categoryString.concat(question.formattedQuestionText() + question.answerText + '\n');
-    });
-
-    return categoryString;
-}
-
-/**
- *
- */
-let writeFileToOutput = function(fileName, contents) {
-    // If the filename contains a slash, check that the subdirectory exists first.
+let writePageToOutput = function(page) {
     let outputDir = './output/';
 
     new Promise((resolve, reject) => {
-        if (fileName.lastIndexOf("/") != -1) {
-            let filePath = fileName.slice(0, fileName.lastIndexOf("/"));
+        // If the filename contains a slash, check that the subdirectory exists first.
+        if (page.url().lastIndexOf("/") != -1) {
+            let filePath = page.url().slice(0, page.url().lastIndexOf("/"));
             fs.ensureDir(outputDir + filePath, err => {
                 if (err) reject();
-
                 return resolve();
             });
         } else {
             return resolve();
         }
+
     }).then(response => {
-        let writeStream = fs.createWriteStream(outputDir + fileName + '.md', { flags: 'a'});
-        writeStream.write(contents);
+        let writeStream = fs.createWriteStream(outputDir + page.url() + '.md', { flags: 'a'});
+        writeStream.write(page.contents());
         writeStream.end();
     });
 }
 
 /**
- * [sortQuestions description]
- * @param  {[type]} questions [description]
- * @return {[type]}           [description]
+ * For the questions provided, generate pages for the categories that the questions
+ * sit in.
+ *
+ * Firstly constructs a list of categories, and inserts the relevant questions into
+ * each category array. Then, based on the priority of questions within the category,
+ * orders them. Finally, constructs a Page for each category based on the data provided.
+ *
+ * @param  {Array} questions - The questions to generate category pages from.
+ *
+ * @return {Array} - An array of category pages.
  */
-let sortQuestionsIntoCategories = function(questions) {
+let createCategoryPages = function(questions) {
     let categories = [];
 
-    // Push questions into categories
+   // Push questions into categories
     questions.forEach(question => {
-        question.metadata.categories.forEach(category => {
+        question.metadata.categories.forEach(categoryMetadata => {
 
-            let categoryName = typeof category === "string" ? category : category.name;
+            let categoryName = typeof categoryMetadata === "string" ? categoryMetadata : categoryMetadata.name;
 
             if (!categories[categoryName]) {
                 categories[categoryName] = [];
@@ -301,7 +360,7 @@ let sortQuestionsIntoCategories = function(questions) {
         });
     });
 
-    // Sort categories
+    // Sort category questions
     for (let key in categories) {
         categories[key].sort((a, b) => {
             if (a.doesHavePriorityInCategory(key)) {
@@ -314,7 +373,19 @@ let sortQuestionsIntoCategories = function(questions) {
         });
     }
 
-    return categories;
+    // Create pages from category questions
+    let pages = [];
+
+    let mergeQuestionsFn = function(a, b) {
+        return a + b.formattedQuestionText() + b.formattedAnswerText();
+    }
+
+    for (let key in categories) {
+        let pageContents = categories[key].reduce(mergeQuestionsFn, "");
+        pages.push(new Page({}, key, pageContents));
+    }
+
+    return pages;
 }
 
 /**
@@ -333,7 +404,7 @@ let pageAddendum = function(writeStream) {
  * @param  {String} string    The string to be split.
  * @param  {String} delimiter The delimiter to split on.
  *
- * @return {String[]}         An array of split components.
+ * @return {Array}            An array of split components.
  */
 let splitOnce = function(string, delimiter) {
     var i = string.indexOf(delimiter);
