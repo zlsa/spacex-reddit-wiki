@@ -2,4 +2,4 @@
     "categories": ["The Launch Process", "Falcon"],
 }
 
-# How does Falcon refire its engines ?
+# How does Falcon refire its engines?
