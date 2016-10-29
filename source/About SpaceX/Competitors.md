@@ -1,5 +1,5 @@
 {
-    "url":"about/competitors"
+    "location":"About SpaceX/Competitors"
 }
 
 # Competitors

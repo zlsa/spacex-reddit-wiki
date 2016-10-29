@@ -163,19 +163,41 @@ class Page {
      /**
       * Returns the URL for the page, as found in the r/SpaceX wiki.
       *
-      * If there is a url field in the provided metadata, that is returned. If
-      * this does not exist, the title is simply used and formatted by converting
-      * it to lower case and removing non-alphanumeric characters.
+      * If there is a location field in the provided metadata, that is returned. If
+      * this does not exist, the title is simply used. In both instances, the strings
+      * are converted to lowercase, spaces are converted to dashes, and only alphanumeric
+      * characters are allowed to remain.
       *
       * @returns {String} - the URL for the page.
       */
      url() {
-         if (this.metadata && this.metadata.url) {
-             return this.metadata.url;
+         if (this.metadata && this.metadata.location) {
+             return this.metadata.location
+                .toLowerCase().replace(/[^A-Za-z0-9/-\s]/g, "").replace(/\s+/g, "-");
          }
-         return 'faq/' + this.title.toLowerCase().replace(/\W/g, "");
+         return 'faq/' + this.title
+            .toLowerCase().replace(/[^A-Za-z0-9/-\s]/g, "").replace(/\s+/g, "-");
      }
 
+
+     /**
+      * Returns the filename for the page, as found on GitHub.
+      *
+      * If there is a location field in the provided metadata, that is returned. If
+      * this does not exist, the title is simply used.
+      *
+      * @returns {String} - The filename for the page.
+      */
+     filepath() {
+         if (this.metadata && this.metadata.location) {
+             return this.metadata.location;
+         }
+         return 'FAQ/' + this.title;
+     }
+
+     /**
+      *
+      */
      contents() {
          return "# " + this.title + "\n\n" + this.text;
      }
@@ -242,7 +264,7 @@ let generateWiki = function() {
         // Ensure only markdown files and directories are searched
         return [".md", ""].includes(path.extname(item))
         // Exclude directories that have the phrase 'faq' within
-        && path.relative('.', item).indexOf("faq") === -1
+        && path.relative('.', item).indexOf("FAQ") === -1
         // Exclude hidden directories and files
         && (path.basename(item) === "." || path.basename(item)[0] !== ".");
     }
@@ -254,8 +276,9 @@ let generateWiki = function() {
         }).on('end', () => {
             // Filter does not remove root directory, we must do this outselves.
             // https://github.com/jprichardson/node-klaw/issues/11
+            // Also, it is easiest to remove directories here.
             items = items.filter(item => {
-                return path.relative('.', item.path) !== "source";
+                return !item.stats.isDirectory();
             });
 
             let promises = items.map(item => Page.parseFromFile(item.path));
@@ -335,8 +358,8 @@ let writePageToOutput = function(page) {
 
     new Promise((resolve, reject) => {
         // If the filename contains a slash, check that the subdirectory exists first.
-        if (page.url().lastIndexOf("/") != -1) {
-            let filePath = page.url().slice(0, page.url().lastIndexOf("/"));
+        if (page.filepath().lastIndexOf("/") != -1) {
+            let filePath = page.filepath().slice(0, page.filepath().lastIndexOf("/"));
             fs.ensureDir(outputDir + filePath, err => {
                 if (err) reject();
                 return resolve();
@@ -346,7 +369,7 @@ let writePageToOutput = function(page) {
         }
 
     }).then(response => {
-        let writeStream = fs.createWriteStream(outputDir + page.url() + '.md', { flags: 'a'});
+        let writeStream = fs.createWriteStream(outputDir + page.filepath() + '.md', { flags: 'a'});
         // note to alter links inside content depending on final destination (github/reddit)
         writeStream.write(page.contents());
         writeStream.end();

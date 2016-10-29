@@ -1,5 +1,5 @@
 {
-    "url":"index"
+    "location":"Index"
 }
 
 # Welcome to the r/SpaceX Wiki!

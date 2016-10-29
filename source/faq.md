@@ -1,5 +1,5 @@
 {
-    "url":"faq"
+    "location":"FAQ"
 }
 
 # Frequently Asked Questions

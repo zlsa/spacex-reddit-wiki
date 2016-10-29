@@ -1,5 +1,5 @@
 {
-    "url":"about/thecompany"
+    "location":"About SpaceX/The Company"
 }
 
 # The Company

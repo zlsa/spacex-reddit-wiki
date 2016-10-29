@@ -1,5 +1,5 @@
 {
-    "url":"about/launchhistory"
+    "location":"About SpaceX/Launch History"
 }
 
 # Launch History

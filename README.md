@@ -49,8 +49,8 @@ At the top of each page and question in the source of this wiki is a small JSON 
                 "name": "bar",
                 "priority": 100
             }
-        ],    
-        "url": "baz",                   
+        ],
+        "location": "Baz Qux",           
         "notes": ["Too long"]           
     }
 
@@ -58,9 +58,9 @@ At the top of each page and question in the source of this wiki is a small JSON 
 
 `Array` of either `String` or `Object`. This represents a list of pages that the question fits under in the FAQ. If it is a string, it is simply the name of the page in the FAQ. If it is an object, it contains two keys: `name` is the name of the page in the FAQ, and `priority` is a value which is used to sort the questions in descending order; highest priority questions will be placed at the top of the FAQ page. If no priority is specified, they will be placed last in the FAQ page and ordered alphabetically.
 
-#### `url` (Pages Only)
+#### `location` (Pages Only)
 
-`String` describing the url of the page within the wiki. Do not prefix this with a leading slash.
+`String` describing the location of the page within the wiki, including the name of the file, but excluding the file's extension. Do not prefix this with a leading slash.
 
 #### `notes`
 

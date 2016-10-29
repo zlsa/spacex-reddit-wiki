@@ -1,5 +1,5 @@
 {
-    "url":"acronyms"
+    "location":"Common Acronyms"
 }
 
 # Acronyms used in spaceflight

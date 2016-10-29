@@ -1,5 +1,5 @@
 {
-    "url":"about/launchmanifest"
+    "location":"About SpaceX/Launch Manifest"
 }
 
 # Launch Manifest
