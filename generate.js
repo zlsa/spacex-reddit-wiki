@@ -342,7 +342,7 @@ let publishWiki = function(faqAndWikiPages) {
                 if (--i) {
                     publishPageToWiki(i);
                 }
-            }, 3000);
+            }, 2000);
         })(pages.length - 1);
 
     }
